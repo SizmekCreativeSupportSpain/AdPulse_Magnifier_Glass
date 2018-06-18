@@ -1,13 +1,5 @@
-/*******************
-VARIABLES
-*******************/
-var lastModified = "2017-08-02";
-var lastUploaded = "2017-08-02";
-var templateVersion = "2.0.24";
-
 var expansionDiv;
 var closeButton;
-var adId, rnd, uid;
 var imageContainer;
 
 /*******************
@@ -15,6 +7,12 @@ INITIALIZATION
 *******************/
 function checkIfAdKitReady(event) {
 	adkit.onReady(initializeCreative);
+}
+
+function initializeCreative(event) {
+
+	//Workaround (from QB6573) for Async EB Load where Modernizr isn't properly initialized
+	typeof Modernizr === "object" && (Modernizr.touch = Modernizr.touch || "ontouchstart" in window);
 	expansionDiv = document.getElementById("expansion");
 	closeButton = document.getElementById("closeButton");
 	imageContainer = document.getElementById('imageContainer');
@@ -22,27 +20,7 @@ function checkIfAdKitReady(event) {
 	closeButton.addEventListener("click", handleCloseButtonClick);
 	imageContainer.addEventListener('mouseenter', onMouseEnter);
 	imageContainer.addEventListener('mouseleave', onMouseLeave);
-}
 
-function initializeCreative(event) {
-	try { //try/catch just in case localPreview.js is not included
-		if (window.localPreview) {
-			window.initializeLocalPreview(); //in localPreview.js
-		}
-	}
-	catch (e) {}
-
-	//Workaround (from QB6573) for Async EB Load where Modernizr isn't properly initialized
-	typeof Modernizr === "object" && (Modernizr.touch = Modernizr.touch || "ontouchstart" in window);
-
-	window.registerInteraction = function() {}; //overwrite rI function because it will never actually be called
-	initializeGlobalVariables();
-}
-
-function initializeGlobalVariables () {
-	adId = EB._adConfig.adId;
-	rnd = EB._adConfig.rnd;
-	uid = EB._adConfig.uid;
 }
 
 function handleCloseButtonClick(e){

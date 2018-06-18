@@ -20,15 +20,10 @@ button {
 #banner {
 	position: absolute;
 	display: block;
-	width: 980px;
-	height: 250px;
+	width: 1px;
+	height: 1px;
 	top: 0;
 	left: 0;
 	overflow: hidden;
-  background: url('images/backup.jpg') no-repeat center center;
-}
-
-.expand-button {
-	height: 100%;
-	width: 100%;
+  
 }
