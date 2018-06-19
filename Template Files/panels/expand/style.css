@@ -3,8 +3,11 @@
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, hr, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figure, figcaption, hgroup, menu, footer, header, nav, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; } article, aside, canvas, figure, figure img, figcaption, hgroup, footer, header, nav, section, audio, video { display: block; } a img {border: 0;}
 
 html, body{
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
 }
 
 button {
@@ -23,47 +26,47 @@ PANEL STYLES
 #expansion {
 	position: absolute;
 	display: block;
-	width: 100%;
-	height: 100%;
+	width: 150px;
+	height: 150px;
 	top: 0;
 	left: 0;
 	overflow: hidden;
+	border-radius: 150px 150px;
+	opacity: 0;
 }
 
 #closeButton {
 	top: 10px;
 	right: 10px;
-  height: 50px;
+	height: 50px;
 	width: 50px;
 	z-index: 99;
 	background: url(images/close.png) no-repeat center center;
-
 }
 
-#imageContainer{
-  position: absolute;
+#adContainer{
+	position: absolute;
 	display: block;
-	width: 100%;
-	height: 100%;
 	top: 0;
 	left: 0;
+	width: 100vw;
+    height: 100vh;
 	overflow: hidden;
-  background: url('images/background.jpg') no-repeat center center;
-  background-size: cover;
-  z-index: 10;
-  -webkit-mask-image: radial-gradient(circle 0, rgba(255,255,255,1) 90%,rgba(255,255,255,0) 100%);
+	z-index: 10;
 }
-#imageContainerExp{
-  position: absolute;
-	display: block;
-	width: 100%;
-	height: 100%;
+
+.click-btn{
 	top: 0;
 	left: 0;
-	overflow: hidden;
-  background: url('images/background.jpg') no-repeat center center;
-  background-size: cover;
-  opacity: 0;
-  z-index: 1;
-  transition: opacity .3s ease-out;
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+
+.centerX{
+	position: absolute;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
 }
