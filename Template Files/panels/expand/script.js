@@ -1,6 +1,8 @@
 var expansionDiv;
 var closeButton;
-var imageContainer;
+var adContainer;
+var clickBtn;
+var remainingExpansions = 1;
 
 /*******************
 INITIALIZATION
@@ -15,12 +17,72 @@ function initializeCreative(event) {
 	typeof Modernizr === "object" && (Modernizr.touch = Modernizr.touch || "ontouchstart" in window);
 	expansionDiv = document.getElementById("expansion");
 	closeButton = document.getElementById("closeButton");
-	imageContainer = document.getElementById('imageContainer');
+	adContainer = document.getElementById('adContainer');
+	clickBtn = document.getElementById('clickBtn');
 
 	closeButton.addEventListener("click", handleCloseButtonClick);
-	imageContainer.addEventListener('mouseenter', onMouseEnter);
-	imageContainer.addEventListener('mouseleave', onMouseLeave);
+	clickBtn.addEventListener("click", handleClick);
+	document.body.addEventListener('mouseenter', onMouseEnter);
 
+	try{
+		adId = EB._adConfig.adId;
+	}catch(err){
+		adId = "LocalTest";
+	}
+
+	var itemName = adId + "_setDate";
+	if (localStorage.getItem(itemName) === null) {
+		localStorage.setItem(itemName, new Date());
+	}
+
+	if(checkAutoExpandFrequency()){
+		document.body.removeEventListener('mousemove', onMouseMove);
+		document.body.removeEventListener('mouseenter', onMouseEnter);
+		clickBtn.style.display = 'block';
+		expansionDiv.style.top = '0px';
+		expansionDiv.style.left = '0px';
+		expansionDiv.style.width = '100%';
+		expansionDiv.style.height = '100%';
+		expansionDiv.style.borderRadius = '0px';
+		expansionDiv.style.border = 'none';
+		expansionDiv.style.opacity = 1;
+		adContainer.style.top = '0px';
+		adContainer.style.left = '0px';
+	}
+
+	var rnd = Math.floor(Math.random()*900000) + 100000;
+    var img = new Image();
+    img.src = 'https://bs.serving-sys.com/Serving/adServer.bs?cn=display&c=19&pli=1074314565&adid=1075072380&ord=' + rnd;
+}
+
+function checkAutoExpandFrequency(){
+	var itemName = adId + "_autoExpansions";
+	var remainingExpansions = localStorage.getItem(itemName);
+	if (remainingExpansions > 0 || remainingExpansions === null) {
+		remainingExpansions = 0;
+		localStorage.setItem(itemName,remainingExpansions);
+		return true;
+	}else{
+		if (checkCookieDate() === true) {
+			remainingExpansions = 0;
+			localStorage.setItem(itemName,remainingExpansions);
+			return true;
+		}
+		return false;
+	}
+	
+}
+function checkCookieDate(){
+	var itemName = adId + "_setDate";
+	var cookieDate = new Date(localStorage.getItem(itemName));
+	var actualDate = new Date();
+	var diff = (actualDate - cookieDate)/(1000*60*60*24);
+	if (diff >= 1) {
+		localStorage.setItem(itemName,actualDate);
+		return true;
+	}else{
+		return false;
+	}
 }
 
 function handleCloseButtonClick(e){
@@ -44,18 +106,33 @@ window.addEventListener("load", checkIfAdKitReady);
 
 
 function onMouseEnter(event){
-	imageContainer.removeEventListener('mouseenter', onMouseEnter);
-	imageContainer.addEventListener('mousemove', onMouseMove);
-	imageContainer.addEventListener('click', function(){
-		imageContainer.style.display = 'none';
-		document.getElementById('imageContainerExp').style.opacity = '1';
+	document.body.removeEventListener('mouseenter', onMouseEnter);
+	document.body.addEventListener('mousemove', onMouseMove);
+	document.body.addEventListener('click', function(){
+		document.body.removeEventListener('mousemove', onMouseMove);
+		clickBtn.style.display = 'block';
+		expansionDiv.style.top = '0px';
+		expansionDiv.style.left = '0px';
+		expansionDiv.style.width = '100%';
+		expansionDiv.style.height = '100%';
+		expansionDiv.style.borderRadius = '0px';
+		expansionDiv.style.opacity = 1;
+		adContainer.style.top = '0px';
+		adContainer.style.left = '0px';
 	});
 }
 function onMouseMove(event){
-	event.target.style.webkitMaskImage = 'radial-gradient(circle 100px at ' + event.pageX + 'px ' + event.pageY + 'px, rgba(255,255,255,1) 80%, rgba(255,255,255,0) 100%)';
-	event.target.style.cursor = 'none';
+	expansionDiv.style.opacity = 0.8;
+	adContainer.style.top = -(event.pageY - 150)+'px';
+	adContainer.style.left = -(event.pageX - 150)+'px';
+	expansionDiv.style.top = (event.pageY - 150)+'px';
+	expansionDiv.style.left = (event.pageX - 150)+'px';
 }
 function onMouseLeave(event){
-	imageContainer.addEventListener('mouseenter',onMouseEnter);
-	imageContainer.removeEventListener('mousemove', onMouseMove);
+	document.body.addEventListener('mouseenter',onMouseEnter);
+	document.body.removeEventListener('mousemove', onMouseMove);
+}
+
+function handleClick(){
+	EB.clickthrough('Click_Panel');
 }
