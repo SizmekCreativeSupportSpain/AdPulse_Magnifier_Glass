@@ -26,12 +26,13 @@ PANEL STYLES
 #expansion {
 	position: absolute;
 	display: block;
-	width: 150px;
-	height: 150px;
+	width: 300px;
+	height: 300px;
 	top: 0;
 	left: 0;
 	overflow: hidden;
-	border-radius: 150px 150px;
+	border-radius: 300px 300px;
+	border: 3px solid white;
 	opacity: 0;
 }
 
@@ -60,6 +61,7 @@ PANEL STYLES
 	left: 0;
 	width: 100%;
 	height: 100%;
+	z-index: 100;
 	display: none;
 }
 

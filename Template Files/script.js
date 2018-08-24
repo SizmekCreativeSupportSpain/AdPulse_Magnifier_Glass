@@ -1,5 +1,3 @@
-// http://www.sizmek.es/eb/users/javiegido_/__TESTS/DemoTool/index.html?placementId=25142346&width=1&height=1&position=1&cssCode=%23formContainer%7Bdisplay%3Anone%7D
-
 var creativeId = "AdPulse Magnifier Glasses";
 var creativeVersion = "1.0.1";
 var lastModified = "2017-08-02";
@@ -7,7 +5,6 @@ var lastUploaded = "2017-08-02";
 var templateVersion = "2.0.24";
 
 var adId, rnd, uid;
-var bannerDiv;
 
 function checkIfAdKitReady(event) {
 	adkit.onReady(initializeCreative);
@@ -29,11 +26,9 @@ function initializeCreative(event) {
 }
 
 function initializeGlobalVariables() {
-	adId = EB._adConfig.adId;
-	rnd = EB._adConfig.rnd;
-	uid = EB._adConfig.uid;
-
-	bannerDiv = document.getElementById("banner");
+    adId = EB._adConfig.adId;
+    rnd  = EB._adConfig.rnd;
+    uid  = EB._adConfig.uid;
 
 	initPanels();
 }
@@ -42,13 +37,13 @@ function initPanels(){
 
 	adkit.expand({
         panelName: "billboard",
-				actionType: adkit.ActionType.AUTO,
+        actionType: adkit.ActionType.AUTO,
         useCustomClose: true
     });
 
     adkit.expand({
         panelName: "expand",
-				actionType: adkit.ActionType.AUTO,
+		actionType: adkit.ActionType.AUTO,
         expandToMax: !0,
         useCustomClose: true,
         animate: {
@@ -62,9 +57,10 @@ function initPanels(){
              }
         }
     });
+
     adkit.expand({
         panelName: "skin",
-				actionType: adkit.ActionType.AUTO,
+		actionType: adkit.ActionType.AUTO,
         expandToMax: !0,
         useCustomClose: true,
         animate: {

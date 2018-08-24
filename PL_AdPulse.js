@@ -443,7 +443,8 @@ window.ebO && ebO.extensionHooks && ebO.extensionHooks.push(function (adConfig) 
 				});
 
 				var customBillboardStyle = '#'+event.dispatcher.props.panel.id+'{top:10px!important;}';
-				customBillboardStyle += '#contenedor,#td-outer-wrap{position:relative;z-index:2;}';
+				// customBillboardStyle += '#contenedor,#td-outer-wrap{position:relative;z-index:2;}';
+				customBillboardStyle += 'body > div {position:relative;z-index:2;}';
 				_self.addStylesheetToHead(customBillboardStyle);
 
 			}
