@@ -116,6 +116,7 @@ function onMouseEnter(event){
 		expansionDiv.style.width = '100%';
 		expansionDiv.style.height = '100%';
 		expansionDiv.style.borderRadius = '0px';
+		expansionDiv.style.border = 'none';
 		expansionDiv.style.opacity = 1;
 		adContainer.style.top = '0px';
 		adContainer.style.left = '0px';
