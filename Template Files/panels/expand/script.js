@@ -3,6 +3,8 @@ var closeButton;
 var adContainer;
 var clickBtn;
 var remainingExpansions = 1;
+var video;
+var audioButton,controlButton;
 
 /*******************
 INITIALIZATION
@@ -19,6 +21,10 @@ function initializeCreative(event) {
 	closeButton = document.getElementById("closeButton");
 	adContainer = document.getElementById('adContainer');
 	clickBtn = document.getElementById('clickBtn');
+
+	video = document.getElementById("video");
+	audioButton = document.getElementById("audioButton");
+	controlButton = document.getElementById("controlButton");
 
 	closeButton.addEventListener("click", handleCloseButtonClick);
 	clickBtn.addEventListener("click", handleClick);
@@ -49,6 +55,8 @@ function initializeCreative(event) {
 		adContainer.style.top = '0px';
 		adContainer.style.left = '0px';
 	}
+
+	initializeVideoTracking();
 
 	var rnd = Math.floor(Math.random()*900000) + 100000;
     var img = new Image();
@@ -102,9 +110,6 @@ function handleCloseButtonClick(e){
    });
 }
 
-window.addEventListener("load", checkIfAdKitReady);
-
-
 function onMouseEnter(event){
 	document.body.removeEventListener('mouseenter', onMouseEnter);
 	document.body.addEventListener('mousemove', onMouseMove);
@@ -116,6 +121,7 @@ function onMouseEnter(event){
 		expansionDiv.style.width = '100%';
 		expansionDiv.style.height = '100%';
 		expansionDiv.style.borderRadius = '0px';
+		expansionDiv.style.border = 'none';
 		expansionDiv.style.opacity = 1;
 		adContainer.style.top = '0px';
 		adContainer.style.left = '0px';
@@ -136,3 +142,57 @@ function onMouseLeave(event){
 function handleClick(){
 	EB.clickthrough('Click_Panel');
 }
+
+function initializeVideoTracking() {
+	videoTrackingModule = new EBG.VideoModule(video);
+
+	controlButton.addEventListener("click", handleControlsButtonClick);
+	audioButton.addEventListener("click", handleAudioButtonClick);
+	document.getElementById('videoClickBtn').addEventListener('click',function(){
+		EB.clickthrough();
+	});
+	
+	video.addEventListener('play',setControlImage);
+    video.addEventListener('pause',setControlImage);
+    video.addEventListener('ended',onVideoEnd);
+    video.addEventListener('volumechange',setAudioImage);
+	
+    setAudioImage();
+    setControlImage();
+}
+
+function setAudioImage(){
+	if(video.muted){
+		audioButton.style.backgroundImage = "url(images/audioOff.png)";
+	}else{
+		audioButton.style.backgroundImage = "url(images/audioOn.png)";
+	}
+}
+function setControlImage(){
+	if(video.paused){
+		controlButton.style.backgroundImage = "url(images/play.png)";
+	}else{
+		controlButton.style.backgroundImage = "url(images/pause.png)";
+	}
+}
+
+function onVideoEnd(){
+	controlButton.style.backgroundImage = "url(images/replay.png)";
+	video.load();
+}
+
+function handleAudioButtonClick() {
+	video.muted = !video.muted;
+}
+
+function handleControlsButtonClick() {
+	if(video.paused){
+		video.play();
+	}else{
+		video.pause();
+	}
+	setControlImage();
+}
+
+
+window.addEventListener("load", checkIfAdKitReady);
